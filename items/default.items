@@ -16,6 +16,7 @@ Number esp1_dht22_h "Living Room Humidity [%.1f %%]" <humidity> (Living, chart_h
 /* Bedroom */
 Number esp2_dht22_t "Bedroom Temp [%.1f °F]" <temperature> (Bedroom, chart_home, temperatures, temp_chart) {mqtt="<[mymosquitto:topic/esp2_temp:state:JS(esp_CtoF.js)]"}
 Number esp2_dht22_h "Bedroom Humidity [%.1f %%]" <humidity> (Bedroom, chart_home, humidity) {mqtt="<[mymosquitto:topic/esp2_temp:state:REGEX(.+,\\s(.+))]"}
+Dimmer flux_ble_1 "Bedroom" <hue> (Bedroom)
 
 /* Bathroom */
 Number esp3_dht22_t "Bathroom Temp [%.1f °F]" <temperature> (Bathroom, chart_home, temperatures, temp_chart) {mqtt="<[mymosquitto:topic/esp1_temp:state:JS(esp_CtoF.js)]"}
@@ -34,3 +35,5 @@ Number temperatures_avg "Avg. Temp. [%.1f °F]" <temperature> (All, temp_chart)
 /* Testing */
 Number testtest "Test [%.1f °F]" <temperature> {mqtt="<[mymosquitto:topic/test:state:JS(esp_CtoF.js)]"}
 Number test_avg "Avg Temp [%.1f °F]" <temperature>
+
+

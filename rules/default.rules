@@ -60,3 +60,9 @@ then
     postUpdate(temperatures_avg,avg)    
 end
 
+rule "Flux_BLE_dimmer"
+when
+    Item flux_ble_1 changed
+then
+    logDebug("default.rules","FLUX dimmer: " + flux_ble_1.state)
+end
