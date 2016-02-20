@@ -11,6 +11,7 @@ var Double tempF
 var Double tempFahrenheit
 var Double humid
 var Double humidity
+var Double delay
 
 rule "Convert_Temp_CtoF"
 when
@@ -65,4 +66,10 @@ when
     Item flux_ble_1 changed
 then
     logDebug("default.rules","FLUX dimmer: " + flux_ble_1.state)
+    var brightness = flux_ble_1.state as DecimalType
+    brightness = brightness/1000.0
+    delay = 5000
+    var mac = "98:7B:F3:5A:E0:0D"
+    Thread::sleep(500)
+    executeCommandLine("/home/pi/bin/flux " + mac + " -w " + brightness)
 end
