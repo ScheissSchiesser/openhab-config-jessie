@@ -8,19 +8,20 @@ Group Bedroom "Bedroom" <bedroom> (All)
 Group Bathroom "Bathroom" <bath> (All)
 Group sensors
 Group temp_chart
+Group persistence
 
 /* Living Room */
-Number esp1_dht22_t "Living Room Temp [%.1f °F]" <temperature> (Living, chart_home, temperatures, temp_chart) {mqtt="<[mymosquitto:topic/esp1_temp:state:JS(esp_CtoF.js)]"}
-Number esp1_dht22_h "Living Room Humidity [%.1f %%]" <humidity> (Living, chart_home, humidity) {mqtt="<[mymosquitto:topic/esp1_temp:state:REGEX(.+,\\s(.+))]"}
+Number esp1_dht22_t "Living Room Temp [%.1f °F]" <temperature> (Living, chart_home, temperatures, temp_chart, persistence) {mqtt="<[mymosquitto:topic/esp1_temp:state:JS(esp_CtoF.js)]"}
+Number esp1_dht22_h "Living Room Humidity [%.1f %%]" <humidity> (Living, chart_home, humidity, persistence) {mqtt="<[mymosquitto:topic/esp1_temp:state:REGEX(.+,\\s(.+))]"}
 
 /* Bedroom */
-Number esp2_dht22_t "Bedroom Temp [%.1f °F]" <temperature> (Bedroom, chart_home, temperatures, temp_chart) {mqtt="<[mymosquitto:topic/esp2_temp:state:JS(esp_CtoF.js)]"}
-Number esp2_dht22_h "Bedroom Humidity [%.1f %%]" <humidity> (Bedroom, chart_home, humidity) {mqtt="<[mymosquitto:topic/esp2_temp:state:REGEX(.+,\\s(.+))]"}
+Number esp2_dht22_t "Bedroom Temp [%.1f °F]" <temperature> (Bedroom, chart_home, temperatures, temp_chart, persistence) {mqtt="<[mymosquitto:topic/esp2_temp:state:JS(esp_CtoF.js)]"}
+Number esp2_dht22_h "Bedroom Humidity [%.1f %%]" <humidity> (Bedroom, chart_home, humidity, persistence) {mqtt="<[mymosquitto:topic/esp2_temp:state:REGEX(.+,\\s(.+))]"}
 Dimmer flux_ble_1 "Bedroom" <hue> (Bedroom)
 
 /* Bathroom */
-Number esp3_dht22_t "Bathroom Temp [%.1f °F]" <temperature> (Bathroom, chart_home, temperatures, temp_chart) {mqtt="<[mymosquitto:topic/esp1_temp:state:JS(esp_CtoF.js)]"}
-Number esp3_dht22_h "Bathroom Humidity [%.1f %%]" <humidity> (Bathroom, chart_home, humidity) {mqtt="<[mymosquitto:topic/esp1_temp:state:REGEX(.+,\\s(.+))]"}
+Number esp3_dht22_t "Bathroom Temp [%.1f °F]" <temperature> (Bathroom, chart_home, temperatures, temp_chart, persistence) {mqtt="<[mymosquitto:topic/esp1_temp:state:JS(esp_CtoF.js)]"}
+Number esp3_dht22_h "Bathroom Humidity [%.1f %%]" <humidity> (Bathroom, chart_home, humidity, persistence) {mqtt="<[mymosquitto:topic/esp1_temp:state:REGEX(.+,\\s(.+))]"}
 
 /* Weather */
 Number Temperature "Temperature [%.1f °F]" <temperature> (WeatherItems) {weather="locationId=home, type=temperature, property=current, unit=fahrenheit"}
@@ -30,7 +31,7 @@ Number Humidity "Humidity [%d %%]" <humidity> (WeatherItems) {weather="locationI
 Number Temp_Chart_Period "Chart Period"
 
 /* Averages */
-Number temperatures_avg "Avg. Temp. [%.1f °F]" <temperature> (All, temp_chart)
+Number temperatures_avg "Avg. Temp. [%.1f °F]" <temperature> (All, temp_chart, persistence)
 
 /* Testing */
 Number testtest "Test [%.1f °F]" <temperature> {mqtt="<[mymosquitto:topic/test:state:JS(esp_CtoF.js)]"}
