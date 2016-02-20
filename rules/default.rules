@@ -1,0 +1,62 @@
+import org.openhab.core.library.types.*
+import org.openhab.core.persistence.*
+import org.openhab.model.script.actions.*
+import java.lang.Integer
+import java.lang.Double
+import java.lang.String
+
+var String[] buffer
+var Double tempCelsius
+var Double tempF
+var Double tempFahrenheit
+var Double humid
+var Double humidity
+
+rule "Convert_Temp_CtoF"
+when
+    Item esp_dht22 changed 
+then
+    buffer = esp_dht22.state.toString.split(", ")
+    tempCelsius = new Double(buffer.get(0))
+    logDebug("default.rules","tempCelsius: " + tempCelsius)
+    humid = new Double(buffer.get(1))
+    tempF = tempCelsius * 9/5 +  32
+    logDebug("default.rules","tempF: " + tempF)
+    tempFahrenheit = tempF
+    humidity = humid
+    postUpdate(esp_dht22_t, tempFahrenheit)
+    postUpdate(esp_dht22_h, humidity)
+end
+
+rule "Average_Temperature"
+when
+    Item esp1_dht22_t received update or
+    Item esp2_dht22_t received update or
+    Item esp3_dht22_t received update or
+then
+    var time = esp1_dht22_t.lastUpdate("mysql")
+    var org.joda.time.DateTime dtStartDT = new org.joda.time.DateTime(time);    
+    var temp = esp1_dht22_t.historicState(dtStartDT,"mysql")
+    logDebug("default.rules","Last esp1 update: " + temp)
+    var sum = (temp.state as DecimalType)
+
+    time = esp2_dht22_t.lastUpdate("mysql")
+    dtStartDT = new org.joda.time.DateTime(time);
+    temp = esp2_dht22_t.historicState(dtStartDT,"mysql")
+    logDebug("default.rules","Last esp2 update: " + temp)
+    
+    sum = sum + (temp.state as DecimalType)
+
+    time = esp3_dht22_t.lastUpdate("mysql")
+    dtStartDT = new org.joda.time.DateTime(time);
+    temp = esp3_dht22_t.historicState(dtStartDT,"mysql")
+    logDebug("default.rules","Last esp3 update: " + temp)
+
+    sum = sum + (temp.state as DecimalType)
+
+    var avg = sum/3.0
+    logDebug("default.rules","avg: " + avg)
+    
+    postUpdate(temperatures_avg,avg)    
+end
+

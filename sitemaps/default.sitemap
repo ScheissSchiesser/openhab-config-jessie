@@ -1,0 +1,25 @@
+sitemap default label="Schiesser Home"
+{
+        Frame label="Living Room Temperature" {
+                Group item=Living
+		Group item=Bedroom
+		Group item=Bathroom
+        }
+        Frame label="Weather" {
+                Text item=Temperature
+		Text item=Humidity
+        }
+	Frame label="All Temperatures" {
+		Text item=esp1_dht22_t label="Living Room [%.1f °F]"
+		Text item=esp2_dht22_t label="Bedroom [%.1f °F]"
+		Text item=esp3_dht22_t label="Bathroom [%.1f °F]"
+		Text item=temperatures_avg {
+			Frame {
+                               Switch item=Temp_Chart_Period label="Chart Period" mappings=[0="Hour", 1="Day", 2="Week"]
+                               Chart item=temp_chart period=h refresh=6000 visibility=[Temp_Chart_Period==0, Temp_Chart_Period=="Uninitialized"]
+                               Chart item=temp_chart period=D refresh=30000 visibility=[Temp_Chart_Period==1]
+                               Chart item=temp_chart period=W refresh=30000 visibility=[Temp_Chart_Period==2]
+			}
+		}
+	}
+}
